@@ -123,7 +123,7 @@ export interface UpdateMemoryParams {
 // Query & Search
 // ---------------------------------------------------------------------------
 
-export type QueryMode = 'fast' | 'balanced' | 'thorough' | string;
+export type QueryMode = 'fast' | 'balanced' | 'precise' | string;
 export type ResponseFormat = 'text' | 'markdown' | 'json' | string;
 
 export interface QueryFilters {

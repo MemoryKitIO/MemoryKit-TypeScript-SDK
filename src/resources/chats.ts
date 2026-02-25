@@ -50,7 +50,7 @@ export class ChatsResource {
   async getHistory(id: string): Promise<ChatHistory> {
     return this.client.request<ChatHistory>({
       method: 'GET',
-      path: `/v1/chats/${encodeURIComponent(id)}`,
+      path: `/v1/chats/${encodeURIComponent(id)}/messages`,
     });
   }
 
