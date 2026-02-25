@@ -173,8 +173,8 @@ export class MemoriesResource {
   async stream(params: QueryParams): Promise<AsyncIterable<StreamEvent>> {
     return this.client.stream({
       method: 'POST',
-      path: '/v1/memories/stream',
-      body: params,
+      path: '/v1/memories/query',
+      body: { ...params, stream: true },
     });
   }
 }
