@@ -1,6 +1,6 @@
 {
   "name": "memorykit",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Official TypeScript SDK for MemoryKit — memory infrastructure for AI applications",
   "author": "MemoryKit",
   "license": "MIT",
