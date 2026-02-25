@@ -9,7 +9,7 @@ import {
 import { parseSSEStream } from './sse.js';
 import type { MemoryKitOptions, StreamEvent } from './types.js';
 
-const SDK_VERSION = '0.1.0';
+const SDK_VERSION = '0.1.1';
 const DEFAULT_BASE_URL = 'https://api.memorykit.io/v1';
 const DEFAULT_TIMEOUT = 30_000;
 const DEFAULT_MAX_RETRIES = 3;
