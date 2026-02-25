@@ -1,0 +1,8 @@
+src/
+scripts/
+tsconfig.json
+tsconfig.cjs.json
+.gitignore
+.github/
+.DS_Store
+*.tsbuildinfo
