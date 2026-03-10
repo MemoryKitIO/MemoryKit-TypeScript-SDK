@@ -47,7 +47,7 @@ src/
 | `GET /v1/memories/:id` | `mk.memories.get()` |
 | `PUT /v1/memories/:id` | `mk.memories.update()` |
 | `DELETE /v1/memories/:id` | `mk.memories.delete()` |
-| `POST /v1/memories/search` | `mk.memories.search()` |
+| `GET /v1/memories/search` | `mk.memories.search()` |
 | `POST /v1/memories/query` | `mk.memories.query()` |
 | `POST /v1/memories/query/stream` | `mk.memories.stream()` |
 | `POST /v1/memories/upload` | `mk.memories.upload()` |

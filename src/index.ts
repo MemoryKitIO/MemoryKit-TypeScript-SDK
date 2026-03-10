@@ -1,6 +1,7 @@
 import { HttpClient } from './client.js';
 import { MemoriesResource } from './resources/memories.js';
-import { ChatsResource } from './resources/chats.js';
+// V2: Chats resource disabled for initial launch
+// import { ChatsResource } from './resources/chats.js';
 import { UsersResource } from './resources/users.js';
 import { WebhooksResource } from './resources/webhooks.js';
 import { StatusResource } from './resources/status.js';
@@ -17,15 +18,15 @@ import type { MemoryKitOptions } from './types.js';
  * const mk = new MemoryKit({ apiKey: process.env.MEMORYKIT_API_KEY });
  *
  * const memory = await mk.memories.create({ content: "Hello world" });
- * const answer = await mk.memories.query({ query: "What do you know?" });
+ * const results = await mk.memories.search({ query: "What do you know?" });
  * ```
  */
 export class MemoryKit {
-  /** Memory management, RAG queries, search, and streaming. */
+  /** Memory management and search. */
   readonly memories: MemoriesResource;
 
-  /** Chat sessions and message management. */
-  readonly chats: ChatsResource;
+  // V2: Chats resource disabled for initial launch
+  // readonly chats: ChatsResource;
 
   /** User management and event tracking. */
   readonly users: UsersResource;
@@ -43,7 +44,8 @@ export class MemoryKit {
     const client = new HttpClient(options);
 
     this.memories = new MemoriesResource(client);
-    this.chats = new ChatsResource(client);
+    // V2: Chats resource disabled for initial launch
+    // this.chats = new ChatsResource(client);
     this.users = new UsersResource(client);
     this.webhooks = new WebhooksResource(client);
     this.status = new StatusResource(client);
@@ -87,13 +89,16 @@ export type {
   UpdateMemoryParams,
 
   // Query & Search
-  QueryMode,
-  ResponseFormat,
-  QueryFilters,
-  QueryParams,
-  QuerySource,
-  QueryUsage,
-  QueryResponse,
+  // V2: query types disabled for initial launch
+  // QueryMode,
+  // ResponseFormat,
+  // V2: QueryFilters removed — search now uses flat query params
+  // QueryFilters,
+  // QueryParams,
+  // QuerySource,
+  // QueryUsage,
+  // QueryResponse,
+  SearchPrecision,
   SearchParams,
   SearchResult,
   SearchResponse,
@@ -101,22 +106,22 @@ export type {
   GraphEdge,
   GraphData,
 
-  // Streaming
-  StreamEvent,
-  StreamTextEvent,
-  StreamSourcesEvent,
-  StreamUsageEvent,
-  StreamDoneEvent,
-  StreamErrorEvent,
+  // V2: streaming types disabled for initial launch
+  // StreamEvent,
+  // StreamTextEvent,
+  // StreamSourcesEvent,
+  // StreamUsageEvent,
+  // StreamDoneEvent,
+  // StreamErrorEvent,
 
-  // Chats
-  Chat,
-  CreateChatParams,
-  ListChatsParams,
-  ChatMessage,
-  ChatHistory,
-  SendMessageParams,
-  SendMessageResponse,
+  // V2: chat types disabled for initial launch
+  // Chat,
+  // CreateChatParams,
+  // ListChatsParams,
+  // ChatMessage,
+  // ChatHistory,
+  // SendMessageParams,
+  // SendMessageResponse,
 
   // Users
   User,
@@ -143,7 +148,8 @@ export type {
 
 // Resource classes (advanced usage)
 export { MemoriesResource } from './resources/memories.js';
-export { ChatsResource } from './resources/chats.js';
+// V2: Chats resource disabled for initial launch
+// export { ChatsResource } from './resources/chats.js';
 export { UsersResource } from './resources/users.js';
 export { WebhooksResource } from './resources/webhooks.js';
 export { StatusResource } from './resources/status.js';

@@ -38,15 +38,13 @@ const memory = await mk.memories.create({
   userId: "user_123",
 });
 
-// Query your memories with RAG
-const answer = await mk.memories.query({
+// Search your memories
+const results = await mk.memories.search({
   query: "Who created TypeScript?",
-  mode: "balanced",
-  maxSources: 5,
+  limit: 5,
 });
 
-console.log(answer.answer);
-console.log(answer.sources);
+console.log(results.results);
 ```
 
 ## Configuration
@@ -127,42 +125,17 @@ await mk.memories.reprocess("mem_abc123");
 await mk.memories.delete("mem_abc123");
 ```
 
-### Query (RAG)
-
-```typescript
-const answer = await mk.memories.query({
-  query: "What are the key features?",
-  maxSources: 10,
-  temperature: 0.7,
-  mode: "balanced",           // "fast" | "balanced" | "thorough"
-  userId: "user_123",
-  instructions: "Be concise.",
-  responseFormat: "markdown",
-  includeGraph: true,
-  filters: {
-    tags: ["product"],
-    type: "document",
-    metadata: { category: "features" },
-    memoryIds: ["mem_1", "mem_2"],
-  },
-});
-
-console.log(answer.answer);
-console.log(answer.confidence);
-console.log(answer.sources);
-console.log(answer.usage);
-```
-
 ### Search
 
 ```typescript
 const results = await mk.memories.search({
   query: "typescript best practices",
   limit: 10,
-  scoreThreshold: 0.5,
-  includeGraph: true,
-  filters: { tags: ["programming"] },
+  precision: "high",
+  tags: "programming,typescript",
   userId: "user_123",
+  includeGraph: true,
+  createdAfter: "2025-01-01T00:00:00Z",
 });
 
 for (const result of results.results) {
@@ -172,75 +145,6 @@ for (const result of results.results) {
 if (results.graph) {
   console.log("Knowledge graph:", results.graph.nodes, results.graph.edges);
 }
-```
-
-### Streaming
-
-```typescript
-// Stream a RAG query
-for await (const event of await mk.memories.stream({
-  query: "Explain the architecture",
-  mode: "balanced",
-})) {
-  switch (event.event) {
-    case "text":
-      process.stdout.write(event.data.content);
-      break;
-    case "sources":
-      console.log("\nSources:", event.data.sources);
-      break;
-    case "usage":
-      console.log("\nTokens used:", event.data.totalTokens);
-      break;
-    case "done":
-      console.log("\n--- Done ---");
-      break;
-    case "error":
-      console.error("Error:", event.data.message);
-      break;
-  }
-}
-```
-
-### Chats
-
-```typescript
-// Create a chat session
-const chat = await mk.chats.create({
-  userId: "user_123",
-  title: "Support Chat",
-  metadata: { topic: "billing" },
-});
-
-// Send a message
-const response = await mk.chats.sendMessage(chat.id, {
-  message: "How do I upgrade my plan?",
-  mode: "balanced",
-  maxSources: 5,
-});
-console.log(response.message.content);
-console.log(response.message.sources);
-
-// Stream a chat message
-for await (const event of await mk.chats.streamMessage(chat.id, {
-  message: "Tell me more about the enterprise plan",
-})) {
-  if (event.event === "text") {
-    process.stdout.write(event.data.content);
-  }
-}
-
-// Get full chat history
-const history = await mk.chats.getHistory(chat.id);
-for (const msg of history.messages) {
-  console.log(`${msg.role}: ${msg.content}`);
-}
-
-// List chats
-const chats = await mk.chats.list({ userId: "user_123", limit: 10 });
-
-// Delete a chat
-await mk.chats.delete(chat.id);
 ```
 
 ### Users
@@ -385,11 +289,7 @@ The SDK is written in TypeScript and exports all types. IntelliSense and type ch
 ```typescript
 import type {
   Memory,
-  QueryResponse,
   SearchResponse,
-  StreamEvent,
-  Chat,
-  ChatMessage,
   User,
   Webhook,
 } from "memorykit";

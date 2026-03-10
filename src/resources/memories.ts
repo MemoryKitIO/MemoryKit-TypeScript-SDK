@@ -8,12 +8,15 @@ import type {
   ListMemoriesParams,
   UpdateMemoryParams,
   PaginatedList,
-  QueryParams,
-  QueryResponse,
+  // V2: query endpoint disabled for initial launch
+  // QueryParams,
+  // QueryResponse,
   SearchParams,
   SearchResponse,
-  StreamEvent,
+  // V2: streaming disabled for initial launch
+  // StreamEvent,
 } from '../types.js';
+import { camelToSnake } from '../utils.js';
 
 /**
  * Resource class for the `/v1/memories` endpoints.
@@ -132,25 +135,33 @@ export class MemoriesResource {
   // Query & Search
   // -----------------------------------------------------------------------
 
-  /**
-   * Perform a RAG query over your memories.
-   */
-  async query(params: QueryParams): Promise<QueryResponse> {
-    return this.client.request<QueryResponse>({
-      method: 'POST',
-      path: '/v1/memories/query',
-      body: params,
-    });
-  }
+  // V2: query endpoint disabled for initial launch
+  // async query(params: QueryParams): Promise<QueryResponse> {
+  //   return this.client.request<QueryResponse>({
+  //     method: 'POST',
+  //     path: '/v1/memories/query',
+  //     body: params,
+  //   });
+  // }
 
   /**
    * Perform a hybrid search over your memories.
+   *
+   * Uses `GET /v1/memories/search` with query parameters.
    */
   async search(params: SearchParams): Promise<SearchResponse> {
+    // Convert camelCase SDK params to snake_case query params
+    const query: Record<string, string | number | boolean | undefined> = {};
+    for (const [key, value] of Object.entries(params)) {
+      if (value !== undefined) {
+        query[camelToSnake(key)] = value as string | number | boolean;
+      }
+    }
+
     return this.client.request<SearchResponse>({
-      method: 'POST',
+      method: 'GET',
       path: '/v1/memories/search',
-      body: params,
+      query,
     });
   }
 
@@ -158,23 +169,12 @@ export class MemoriesResource {
   // Streaming
   // -----------------------------------------------------------------------
 
-  /**
-   * Stream a RAG query response as Server-Sent Events.
-   *
-   * @example
-   * ```ts
-   * for await (const event of mk.memories.stream({ query: "..." })) {
-   *   if (event.event === "text") {
-   *     process.stdout.write(event.data.content);
-   *   }
-   * }
-   * ```
-   */
-  async stream(params: QueryParams): Promise<AsyncIterable<StreamEvent>> {
-    return this.client.stream({
-      method: 'POST',
-      path: '/v1/memories/query',
-      body: { ...params, stream: true },
-    });
-  }
+  // V2: streaming disabled for initial launch
+  // async stream(params: QueryParams): Promise<AsyncIterable<StreamEvent>> {
+  //   return this.client.stream({
+  //     method: 'POST',
+  //     path: '/v1/memories/query',
+  //     body: { ...params, stream: true },
+  //   });
+  // }
 }

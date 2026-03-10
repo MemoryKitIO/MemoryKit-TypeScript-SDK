@@ -123,58 +123,83 @@ export interface UpdateMemoryParams {
 // Query & Search
 // ---------------------------------------------------------------------------
 
-export type QueryMode = 'fast' | 'balanced' | 'precise' | string;
-export type ResponseFormat = 'text' | 'markdown' | 'json' | string;
+// V2: query types disabled for initial launch
+// export type QueryMode = 'fast' | 'balanced' | 'precise' | string;
+// export type ResponseFormat = 'text' | 'markdown' | 'json' | string;
 
-export interface QueryFilters {
-  metadata?: Metadata;
-  tags?: string[];
-  memoryIds?: string[];
-  type?: MemoryType;
-}
+// V2: QueryFilters removed — search now uses flat query params
+// export interface QueryFilters {
+//   metadata?: Metadata;
+//   tags?: string[];
+//   memoryIds?: string[];
+//   type?: MemoryType;
+// }
 
-export interface QueryParams {
-  query: string;
-  maxSources?: number;
-  temperature?: number;
-  mode?: QueryMode;
-  userId?: string;
-  instructions?: string;
-  responseFormat?: ResponseFormat;
-  includeGraph?: boolean;
-  filters?: QueryFilters;
-}
+// V2: query types disabled for initial launch
+// export interface QueryParams {
+//   query: string;
+//   maxSources?: number;
+//   temperature?: number;
+//   mode?: QueryMode;
+//   userId?: string;
+//   instructions?: string;
+//   responseFormat?: ResponseFormat;
+//   includeGraph?: boolean;
+//   filters?: QueryFilters;
+// }
 
-export interface QuerySource {
-  memoryId: string;
-  title: string | null;
-  content: string;
-  score: number;
-  metadata: Metadata;
-}
+// export interface QuerySource {
+//   memoryId: string;
+//   title: string | null;
+//   content: string;
+//   score: number;
+//   metadata: Metadata;
+// }
 
-export interface QueryUsage {
-  promptTokens: number;
-  completionTokens: number;
-  totalTokens: number;
-}
+// export interface QueryUsage {
+//   promptTokens: number;
+//   completionTokens: number;
+//   totalTokens: number;
+// }
 
-export interface QueryResponse {
-  answer: string;
-  confidence: number;
-  sources: QuerySource[];
-  model: string;
-  requestId: string;
-  usage: QueryUsage;
-}
+// export interface QueryResponse {
+//   answer: string;
+//   confidence: number;
+//   sources: QuerySource[];
+//   model: string;
+//   requestId: string;
+//   usage: QueryUsage;
+// }
+
+export type SearchPrecision = 'low' | 'medium' | 'high';
 
 export interface SearchParams {
+  /** Search query (required). */
   query: string;
+
+  /** Result precision level. @default "medium" */
+  precision?: SearchPrecision;
+
+  /** Maximum number of results (1-100). @default 10 */
   limit?: number;
-  scoreThreshold?: number;
-  includeGraph?: boolean;
-  filters?: QueryFilters;
+
+  /** Scope results to a specific user. */
   userId?: string;
+
+  /** Filter by memory type. */
+  type?: MemoryType;
+
+  /** Comma-separated tags to filter by. */
+  tags?: string;
+
+  /** Only include memories created after this ISO 8601 timestamp. */
+  createdAfter?: string;
+
+  /** Only include memories created before this ISO 8601 timestamp. */
+  createdBefore?: string;
+
+  /** Include knowledge graph data in the response. */
+  includeGraph?: boolean;
 }
 
 export interface SearchResult {
@@ -215,95 +240,97 @@ export interface SearchResponse {
 // Streaming (SSE)
 // ---------------------------------------------------------------------------
 
-export interface StreamTextEvent {
-  event: 'text';
-  data: { content: string };
-}
-
-export interface StreamSourcesEvent {
-  event: 'sources';
-  data: { sources: QuerySource[] };
-}
-
-export interface StreamUsageEvent {
-  event: 'usage';
-  data: QueryUsage;
-}
-
-export interface StreamDoneEvent {
-  event: 'done';
-  data: Record<string, never>;
-}
-
-export interface StreamErrorEvent {
-  event: 'error';
-  data: { message: string; code?: string };
-}
-
-export type StreamEvent =
-  | StreamTextEvent
-  | StreamSourcesEvent
-  | StreamUsageEvent
-  | StreamDoneEvent
-  | StreamErrorEvent;
+// V2: streaming types disabled for initial launch
+// export interface StreamTextEvent {
+//   event: 'text';
+//   data: { content: string };
+// }
+//
+// export interface StreamSourcesEvent {
+//   event: 'sources';
+//   data: { sources: QuerySource[] };
+// }
+//
+// export interface StreamUsageEvent {
+//   event: 'usage';
+//   data: QueryUsage;
+// }
+//
+// export interface StreamDoneEvent {
+//   event: 'done';
+//   data: Record<string, never>;
+// }
+//
+// export interface StreamErrorEvent {
+//   event: 'error';
+//   data: { message: string; code?: string };
+// }
+//
+// export type StreamEvent =
+//   | StreamTextEvent
+//   | StreamSourcesEvent
+//   | StreamUsageEvent
+//   | StreamDoneEvent
+//   | StreamErrorEvent;
 
 // ---------------------------------------------------------------------------
 // Chats
 // ---------------------------------------------------------------------------
 
-export interface Chat {
-  id: string;
-  userId: string | null;
-  title: string | null;
-  metadata: Metadata;
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface CreateChatParams {
-  userId?: string;
-  title?: string;
-  metadata?: Metadata;
-}
-
-export interface ListChatsParams {
-  userId?: string;
-  limit?: number;
-  cursor?: string;
-}
-
-export interface ChatMessage {
-  id: string;
-  role: 'user' | 'assistant';
-  content: string;
-  sources: QuerySource[] | null;
-  createdAt: string;
-}
-
-export interface ChatHistory {
-  id: string;
-  userId: string | null;
-  title: string | null;
-  metadata: Metadata;
-  messages: ChatMessage[];
-  createdAt: string;
-  updatedAt: string;
-}
-
-export interface SendMessageParams {
-  message: string;
-  mode?: QueryMode;
-  maxSources?: number;
-  temperature?: number;
-  userId?: string;
-  instructions?: string;
-  responseFormat?: ResponseFormat;
-  filters?: QueryFilters;
-}
-
-export interface SendMessageResponse {
-  message: ChatMessage;
-}
+// V2: chat types disabled for initial launch
+// export interface Chat {
+//   id: string;
+//   userId: string | null;
+//   title: string | null;
+//   metadata: Metadata;
+//   createdAt: string;
+//   updatedAt: string;
+// }
+//
+// export interface CreateChatParams {
+//   userId?: string;
+//   title?: string;
+//   metadata?: Metadata;
+// }
+//
+// export interface ListChatsParams {
+//   userId?: string;
+//   limit?: number;
+//   cursor?: string;
+// }
+//
+// export interface ChatMessage {
+//   id: string;
+//   role: 'user' | 'assistant';
+//   content: string;
+//   sources: QuerySource[] | null;
+//   createdAt: string;
+// }
+//
+// export interface ChatHistory {
+//   id: string;
+//   userId: string | null;
+//   title: string | null;
+//   metadata: Metadata;
+//   messages: ChatMessage[];
+//   createdAt: string;
+//   updatedAt: string;
+// }
+//
+// export interface SendMessageParams {
+//   message: string;
+//   mode?: QueryMode;
+//   maxSources?: number;
+//   temperature?: number;
+//   userId?: string;
+//   instructions?: string;
+//   responseFormat?: ResponseFormat;
+//   filters?: QueryFilters;
+// }
+//
+// export interface SendMessageResponse {
+//   message: ChatMessage;
+// }
 
 // ---------------------------------------------------------------------------
 // Users
