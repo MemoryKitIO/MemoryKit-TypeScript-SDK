@@ -46,7 +46,7 @@ function fakeQueryResponse(): QueryResponse {
         metadata: {},
       },
     ],
-    model: 'gpt-4o-mini',
+    model: 'gpt-5-nano',
     requestId: 'req_xyz',
     usage: {
       totalTimeMs: 230,
@@ -402,7 +402,7 @@ describe('MemoriesResource', () => {
           type: 'document',
           metadata: { category: 'science' },
         },
-        model: 'gpt-4o',
+        model: 'gpt-5-nano',
         history: [
           { role: 'user', content: 'Previous question' },
           { role: 'assistant', content: 'Previous answer' },
@@ -426,7 +426,7 @@ describe('MemoriesResource', () => {
             type: 'document',
             metadata: { category: 'science' },
           },
-          model: 'gpt-4o',
+          model: 'gpt-5-nano',
           history: [
             { role: 'user', content: 'Previous question' },
             { role: 'assistant', content: 'Previous answer' },
@@ -443,7 +443,7 @@ describe('MemoriesResource', () => {
 
       expect(result.usage.totalTimeMs).toBe(230);
       expect(result.usage.tokensUsed).toBe(120);
-      expect(result.model).toBe('gpt-4o-mini');
+      expect(result.model).toBe('gpt-5-nano');
       expect(result.requestId).toBe('req_xyz');
     });
   });

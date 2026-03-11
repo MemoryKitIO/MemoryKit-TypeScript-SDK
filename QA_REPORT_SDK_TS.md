@@ -126,7 +126,7 @@ The `events.py` in the Backend public API is for **User Events** (`/v1/users/{id
 | Type | SDK Values | Backend Values | Gap |
 |---|---|---|---|
 | `MemoryFormat` | `text \| markdown \| html \| string` | `text \| markdown \| json \| html` | SDK omits `json` in named union (covered by `string` fallback) |
-| `ModelName` | `gpt-5-nano \| gpt-5-mini \| gpt-4o-mini \| gpt-4o \| string` | `gpt-5-nano \| gpt-5-mini \| gpt-4o-mini \| gpt-4o` | Match (Backend restricts via regex) |
+| `ModelName` | `gpt-5-nano \| gpt-5-mini \| gpt-5-nano \| gpt-5-nano \| string` | `gpt-5-nano \| gpt-5-mini \| gpt-5-nano \| gpt-5-nano` | Match (Backend restricts via regex) |
 | `QueryMode` | `fast \| balanced \| precise \| string` | `fast \| balanced \| precise` | Match (Backend restricts via regex) |
 
 ### 3.4 PaginatedList Missing Total Count
