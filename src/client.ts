@@ -209,9 +209,17 @@ export class HttpClient {
       // non-JSON error body — that's fine
     }
 
-    const message = (body.message as string) ?? (body.error as string) ?? res.statusText;
-    const code = body.code as string | undefined;
-    const requestId = (res.headers.get('x-request-id') ?? body.requestId) as string | undefined;
+    // Backend returns errors as {"error": {"type", "code", "message"}} — handle nested error object
+    const errorObj = (typeof body.error === 'object' && body.error !== null)
+      ? body.error as Record<string, unknown>
+      : undefined;
+    const message = (errorObj?.message as string)
+      ?? (body.message as string)
+      ?? (typeof body.error === 'string' ? body.error : undefined)
+      ?? (body.detail as string)
+      ?? res.statusText;
+    const code = (errorObj?.code as string) ?? (body.code as string | undefined);
+    const requestId = (res.headers.get('x-request-id') ?? (errorObj?.request_id as string) ?? body.requestId) as string | undefined;
 
     switch (res.status) {
       case 401:

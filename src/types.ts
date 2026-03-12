@@ -240,38 +240,37 @@ export interface SearchResponse {
 // Streaming (SSE)
 // ---------------------------------------------------------------------------
 
-// V2: streaming types disabled for initial launch
-// export interface StreamTextEvent {
-//   event: 'text';
-//   data: { content: string };
-// }
-//
-// export interface StreamSourcesEvent {
-//   event: 'sources';
-//   data: { sources: QuerySource[] };
-// }
-//
-// export interface StreamUsageEvent {
-//   event: 'usage';
-//   data: QueryUsage;
-// }
-//
-// export interface StreamDoneEvent {
-//   event: 'done';
-//   data: Record<string, never>;
-// }
-//
-// export interface StreamErrorEvent {
-//   event: 'error';
-//   data: { message: string; code?: string };
-// }
-//
-// export type StreamEvent =
-//   | StreamTextEvent
-//   | StreamSourcesEvent
-//   | StreamUsageEvent
-//   | StreamDoneEvent
-//   | StreamErrorEvent;
+export interface StreamTextEvent {
+  event: 'text';
+  data: { content: string };
+}
+
+export interface StreamSourcesEvent {
+  event: 'sources';
+  data: { sources: unknown[] };
+}
+
+export interface StreamUsageEvent {
+  event: 'usage';
+  data: Record<string, unknown>;
+}
+
+export interface StreamDoneEvent {
+  event: 'done';
+  data: Record<string, never>;
+}
+
+export interface StreamErrorEvent {
+  event: 'error';
+  data: { message: string; code?: string };
+}
+
+export type StreamEvent =
+  | StreamTextEvent
+  | StreamSourcesEvent
+  | StreamUsageEvent
+  | StreamDoneEvent
+  | StreamErrorEvent;
 
 // ---------------------------------------------------------------------------
 // Chats
